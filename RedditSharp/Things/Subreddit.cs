@@ -45,7 +45,10 @@ namespace RedditSharp.Things
         private const string ModLogUrl = "/r/{0}/about/log.json";
         private const string ContributorsUrl = "/r/{0}/about/contributors.json";
         private const string BannedUsersUrl = "/r/{0}/about/banned.json";
+        private const string TrafficUrl = "/r/{0}/about/traffic.json";
         private const string ModmailUrl = "/r/{0}/message/moderator/inbox.json";
+        
+
 
         [JsonIgnore]
         private Reddit Reddit { get; set; }
@@ -160,6 +163,20 @@ namespace RedditSharp.Things
 
         [JsonIgnore]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Get the subreddit traffic statistics.
+        /// </summary>
+        public async Task<SubredditTraffic> GetTrafficAsync()
+        {
+            var request = WebAgent.CreateGet(string.Format(TrafficUrl, Name));
+            var response = await WebAgent.GetResponseAsync(request);
+            var data = await response.Content.ReadAsStringAsync();
+            var json = JToken.Parse(data);
+            return new SubredditTraffic(Reddit, this, json, WebAgent);
+
+        }
+
         /// <summary>
         /// Top of the subreddit at a timeperiod
         /// </summary>
