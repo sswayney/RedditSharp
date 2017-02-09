@@ -103,6 +103,12 @@ namespace RedditSharp.Things
         public bool NSFW { get; set; }
 
         /// <summary>
+        /// Returns true of the subreddit is marked to allow public traffic statistics.
+        /// </summary>
+        [JsonProperty("public_traffic")]
+        public bool PublicTraffic { get; set; }
+
+        /// <summary>
         /// Public description of the subreddit.
         /// </summary>
         [JsonProperty("public_description")]
